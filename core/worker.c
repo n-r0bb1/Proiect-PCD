@@ -19,7 +19,7 @@ typedef int PipeWriteFd;
 
 /* Structură care ține evidența unui worker activ */
 typedef struct {
-    pid_t      pid;
+    pid_t      pid; //NOLINT
     PipeReadFd read_fd;
 } WorkerSlot;
 
