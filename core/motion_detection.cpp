@@ -2,7 +2,7 @@
 #include "motion_detection.h"
 
 #include <cstdio>
-#include <opencv2/core.hpp> //NOLINT
+#include <opencv2/core.hpp> //NOLINT(misc-include-cleaner)
 #include <opencv2/imgproc.hpp>
 #include <opencv2/videoio.hpp>
 
