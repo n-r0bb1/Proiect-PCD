@@ -1,4 +1,3 @@
-/* serverds.c – TCP server main: getopt, config, accept loop */
 #include "../include/server.h"   //Header principal pentru server (functii de procesare clienti, logica server)
 #include "../include/config.h"   //Header pentru configuratie (structura ServerConfig + functii de load config)
 

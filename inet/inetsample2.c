@@ -1,4 +1,3 @@
-/* inetsample2.c – client main: getopt parsing + validation + client_run() */
 #include "../include/sclient.h" //Include header-ul clientului, contine declaratiile functiilor de retea
 
 #include <stdio.h> //NOLINT -> librarie pentru input/output standard (printf, fprintf)

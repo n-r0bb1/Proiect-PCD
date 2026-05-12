@@ -1,4 +1,4 @@
-// server_logic.c – handler per client: primește request, procesează, trimite răspuns 
+// server_logic.c – handler per client: primeste request, proceseazs, trimite raspuns 
 #include "../include/server.h"      //Header principal al serverului, contine declaratii pentru handler si configurari
 #include "../protocol/proto.h"      //Protocol de comunicare client-server (request/response + serializare/parsing)
 #include "../core/video_io.h"       //Functii pentru lucrul cu fisiere video (ex: numarare frame-uri)
@@ -12,7 +12,7 @@
 
 #define ERRBUF_SIZE 64 //Dimensiunea bufferului folosit pentru mesaje de eroare formatate
 
-// Tip alias pentru file descriptor client (claritate + evitarea swap-urilor greșite) 
+// Tip alias pentru file descriptor client (claritate + evitarea swap-urilor gresite) 
 typedef int ClientFd; //Definim un alias pentru int pentru a clarifica faptul ca este socket client
 
 // Citește o linie terminată cu '\n' de pe socket 
@@ -26,7 +26,7 @@ static ssize_t read_line(ClientFd sock_fd, char *buf, size_t bufsz)
     while (pos + 1 < bufsz) { //ne asiguram ca lasam loc pentru '\0'
         nr = read(sock_fd, &ch, 1); //citire unui singur byte din socket
 
-        if (nr == 0) { // conexiune închisă de client
+        if (nr == 0) { // conexiune inchisa de client
             break; //iesim din bucla daca clientul a inchis conexiunea
         }
         if (nr < 0) { // eroare la citire
@@ -35,7 +35,7 @@ static ssize_t read_line(ClientFd sock_fd, char *buf, size_t bufsz)
 
         buf[pos++] = ch; //stocam caracterul citit in buffer
 
-        if (ch == '\n') { // sfârșit de mesaj
+        if (ch == '\n') { // sfarsit de mesaj
             break; //oprim citirea la newline
         }
     }
@@ -49,7 +49,7 @@ void server_handle_client(ClientFd client_fd, int max_workers)
 {
     char errbuf[ERRBUF_SIZE]; //buffer pentru mesajele de eroare formatate (strerror_r)
 
-    // --- 1. Citire request de la client --- 
+    //Citire request de la client --- 
     char req_buf[SERVER_BUF_SIZE]; //buffer pentru request-ul primit de la client
 
     // Citește mesajul complet trimis de client 
@@ -69,7 +69,7 @@ void server_handle_client(ClientFd client_fd, int max_workers)
     // Log request primit 
     (void)fprintf(stdout,"[server] REQ video=%s chunk=%d threshold=%d\n",req.video_path, req.chunk_size, req.threshold); //afisam detalii despre request pentru debug
 
-    // --- 2. Obținere număr total de frame-uri din video --- 
+    //Obținere număr total de frame-uri din video --- 
     long total_frames = video_get_frame_count(req.video_path); //obtinem numarul total de frame-uri din video
     if (total_frames <= 0) { //verificam daca video-ul este valid
         (void)fprintf(stderr, "[server] cannot get frame count for %s\n",
@@ -77,7 +77,7 @@ void server_handle_client(ClientFd client_fd, int max_workers)
         return; //iesire daca video-ul nu poate fi procesat
     }
 
-    // --- 3. Împărțire video în bucăți (chunks) --- 
+    //Împărțire video în bucăți (chunks) --- 
     FrameChunk chunks[SPLITTER_MAX_CHUNKS]; //vector pentru chunk-urile rezultate din impartire
     size_t     n_chunks = 0; //numarul de chunk-uri generate
 
@@ -87,7 +87,7 @@ void server_handle_client(ClientFd client_fd, int max_workers)
         return; //iesire daca impartirea esueaza
     }
 
-    // --- 4. Execuție workers (procesare paralelă / fork-based) --- 
+    //Execuție workers (procesare paralelă / fork-based) --- 
     long no_motion = workers_run(req.video_path,chunks, n_chunks,req.threshold,max_workers); //rulam workers pentru procesare paralela a chunk-urilor
 
     // Verificare rezultat workers 
@@ -99,7 +99,7 @@ void server_handle_client(ClientFd client_fd, int max_workers)
     // Log rezultat final 
     (void)fprintf(stdout, "[server] no_motion_frames=%ld\n", no_motion); //afisam rezultatul final obtinut
 
-    // --- 5. Construire și trimitere răspuns către client --- 
+    //Construire și trimitere răspuns către client --- 
 
     // Serializare rezultat în format protocol 
     char res_buf[SERVER_BUF_SIZE]; //buffer pentru raspunsul serializat

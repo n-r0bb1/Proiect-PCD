@@ -1,13 +1,10 @@
 // worker.c – gestionare procese worker în paralel (fork + pipe) 
 #include "worker.h"//Include fisierul header ce contine declaratiile necesare
                        //Acesta furnizeaza prototipul functiei si dependentele asociate
-
 #include "frame_splitter.h"//Include modulul pentru impartirea video-ului in chunk-uri
                             //Fiecare chunk reprezinta o portiune de procesat in paralel
-
 #include "motion_detection.h"//Include functia de detectie a miscarii pe frame-uri
                               //Aceasta este functia executata de fiecare worker
-
 #include <stdio.h>//Include functii de input/output standard (fprintf, etc.)
 #include <string.h>//Include functii pentru manipulare stringuri si erori
 #include <stdlib.h>//Include functii standard de utilitate generala
@@ -46,10 +43,9 @@ static void slot_collect(WorkerSlot *slots, size_t slot_idx,size_t *active, long
                        //Initializat cu 0 pentru siguranta
 
     // Citește rezultatul din pipe 
-    ssize_t nread = read(slots[slot_idx].read_fd,
-                         &partial, sizeof(partial));//Citeste rezultatul trimis de copil
-                                                   //Blocant pana la primirea datelor
+    ssize_t nread = read(slots[slot_idx].read_fd,&partial,sizeof(partial));//Citeste rezultatul trimis de copil, blocant pana la primirea datelor
 
+                                                   
     // Dacă citirea este validă, adaugă la total 
     if (nread == (ssize_t)sizeof(partial)) {//Verificam ca am primit exact un long complet
         *total += partial;//Adaugam rezultatul la suma globala
@@ -123,11 +119,7 @@ static void child_run(const char *video_path, long start_frame, long end_frame, 
 }
 
 // Rulează toate chunk-urile în paralel folosind fork + limitare max_workers 
-long workers_run(const char         *video_path,
-                 const FrameChunk   *chunks,
-                 size_t              n_chunks,
-                 int                 threshold,
-                 int                 max_workers)
+long workers_run(const char *video_path,const FrameChunk *chunks, size_t n_chunks, int threshold, int max_workers)
 {
     // Validare input 
     if (!video_path || !chunks || n_chunks == 0 || max_workers <= 0) {//Verificare parametri
@@ -139,7 +131,7 @@ long workers_run(const char         *video_path,
         max_workers = WORKER_SLOT_MAX;//Protejare resurse sistem
     }
 
-    char       errbuf[ERRBUF_SIZE];//Buffer erori general
+    char errbuf[ERRBUF_SIZE];//Buffer erori general
     WorkerSlot slots[WORKER_SLOT_MAX];//Array static pentru workeri
 
     size_t active = 0;//Numar curent de workeri activi

@@ -1,4 +1,4 @@
-/* video_io_cv.c – OpenCV VideoCapture query pentru numărul de frame-uri (C API) */
+/* video_io_cv.c – OpenCV VideoCapture query pentru numarul de frame-uri (C API) */
 #include "video_io.h"
 #include <stdio.h>
 

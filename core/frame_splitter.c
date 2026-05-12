@@ -9,10 +9,8 @@ int frame_splitter_split(long total_frames, int chunk_size, FrameChunk *chunks, 
 {
     size_t count = 0;//Variabila folosita pentru a tine evidenta numarului de chunks create
                     //Aceasta creste cu 1 la fiecare chunk generat si la final reprezinta rezultatul functiei
-
     long start = 0L;//Variabila care reprezinta frame-ul de inceput pentru chunk-ul curent
                     //Initial pornim de la frame-ul 0, adica inceputul videoclipului
-
     if (total_frames <= 0 || chunk_size <= 0 || !chunks || !n_chunks)//Verificam validitatea tuturor parametrilor de intrare
                                                                       //total_frames trebuie sa fie un numar pozitiv de frame-uri
                                                                       //chunk_size trebuie sa fie un numar pozitiv diferit de 0

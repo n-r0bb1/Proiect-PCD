@@ -1,10 +1,10 @@
 #ifndef VIDEO_IO_H
 #define VIDEO_IO_H
 
-/* Return total frame count for video at path, or -1 on error. */
+//Returnează numărul total de cadre pentru videoclipul de pe cale sau -1 în caz de eroare
 long video_get_frame_count(const char *path);
 
-/* Implementation in video_io_cv.c */
+//Functie care returneaza numarul total de frames
 long video_get_frame_count_impl(const char *path);
 
-#endif /* VIDEO_IO_H */
+#endif // VIDEO_IO_H 

@@ -1,4 +1,3 @@
-/// inetclient.c – TCP client: connect, send REQ, receive RES 
 #include "../include/sclient.h" // Include header-ul clientului (declarații funcții și structuri) 
 #include "../protocol/proto.h" // Include protocolul (request/response + serializare/parsing) 
 

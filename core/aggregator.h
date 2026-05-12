@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 
+//Functie ce aduna rezultatele worker process
 long aggregator_sum(const long *partials, size_t count);
 
-#endif /* AGGREGATOR_H */
+#endif // AGGREGATOR_H 

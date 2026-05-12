@@ -8,8 +8,8 @@ typedef struct {
     int threshold;
 } ServerConfig;
 
-/* Load config from file path.
-   Returns 0 on success, -1 on error. */
+//Incarca config file
+//Returneaza 0 pt succes, -1 pt eroare
 int config_load(const char *path, ServerConfig *out);
 
-#endif /* CONFIG_H */
+#endif // CONFIG_H
